@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - The Took Pi's Table</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6643/6643359.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFF8F1; 
+            background-image: linear-gradient(#FFF8F1 85%, #FFECDB 100%); 
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(122, 48, 207, 0.05);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* About Page နှင့် ထပ်တူဖြစ်အောင် ညှိထားသော Navbar */
+        nav {
+            position: fixed; 
+            top: 20px;       
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;      
+            max-width: 1200px;
+            background-color: rgb(233, 217, 210); 
+            backdrop-filter: blur(8px);                 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px; 
+            z-index: 1000;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        nav.scrolled {
+            top: 10px;
+            width: 95%;
+            padding: 0.8rem 2rem; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        nav .logo {
+            color: #ed722a; 
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #ed722a; 
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #fcfcfc;
+            background-color: #ed722a;
+        }
+
+        .nav-btn {
+            background: #ed722a;
+            color: white !important;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            font-size: 0.95rem;
+            transition: 0.3s ease;
+        }
+        .nav-btn:hover { background: #1a1a1a; }
+
+        /* Contact Layout Main Container */
+        .container { 
+            max-width: 1100px; 
+            margin: 120px auto 60px; 
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .contact-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 20px;
+        }
+
+        /* --- ဘယ်ဘက်ခြမ်း: Contact Info Block --- */
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding-right: 20px;
+        }
+
+        .contact-info h2 {
+            font-size: 2.5rem;
+            color: #1a1a1a;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .contact-info p.subtitle {
+            font-size: 1.1rem;
+            color: #636e72;
+            margin-bottom: 40px;
+            line-height: 1.6;
+        }
+
+        .info-item {
+            margin-bottom: 30px;
+        }
+
+        .info-item h3 {
+            color: #ed722a;
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .info-item p {
+            font-size: 1.1rem;
+            color: #2d3436;
+            line-height: 1.5;
+        }
+
+        /* --- ညာဘက်ခြမ်း: Contact Form --- */
+        .contact-form-container {
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            border-bottom: 10px solid #ec723e;
+            position: relative;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 1rem;
+            background-color: #fbfafa;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: #ed722a;
+            background-color: #ffffff;
+            box-shadow: 0 0 8px rgba(237, 114, 42, 0.15);
+        }
+
+        .btn-submit {
+            width: 100%;
+            background: #ed722a;
+            color: #ffffff;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-submit:hover {
+            background: #1a1a1a;
+            transform: translateY(-2px);
+        }
+
+        /* FIXED: စာပို့အောင်မြင်သွားတဲ့အခါ ပြသမည့် Message ပုံစံ */
+        #form-status {
+            display: none;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #ed722a;
+            padding: 20px;
+            background: #fff0e6;
+            border-radius: 12px;
+            margin-top: 15px;
+            border: 1px dashed #ed722a;
+        }
+
+        /* Authentication Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2500;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #636e72;
+        }
+        .auth-toggle { display: flex; gap: 10px; margin-bottom: 20px; }
+        .auth-toggle button {
+            flex: 1; padding: 10px; border: none; background: #eee; cursor: pointer; font-weight: bold; border-radius: 8px;
+        }
+        .auth-toggle button.active { background: #ed722a; color: white; }
+        .auth-form input {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline: none;
+        }
+        .btn-auth-submit {
+            background: #ed722a; color: #fff; padding: 12px; border: none; border-radius: 7px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: 0.3s;
+        }
+        .btn-auth-submit:hover { background: #1a1a1a; }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            color: #ec723e;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 30px;
+            height: 2px;
+            background-color: #ec723e;
+        }
+
+        .footer-section p {
+            color: #b2bec3;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a {
+            color: #b2bec3;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ec723e;
+            padding-left: 5px;
+        }
+
+        .social-links { display: flex; gap: 15px; }
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            background: #2d3436;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .social-links a:hover {
+            background: #ec723e;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #2d3436;
+            font-size: 0.8rem;
+            color: #636e72;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 900px) {
+            .contact-wrapper { grid-template-columns: 1fr; gap: 40px; }
+            .contact-info { padding-right: 0; text-align: center; }
+        }
+        @media (max-width: 768px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .footer-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="logo">THE TOOK PI'S TABLE</div>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><button class="nav-btn" id="user-nav-btn" onclick="toggleAuthModal()">Login</button></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <div class="contact-wrapper">
+        
+        <div class="contact-info">
+            <h2>Contact Us</h2>
+            <p class="subtitle">ကျွန်မတို့ဆိုင်ရဲ့ ဝန်ဆောင်မှုတွေနဲ့ ပတ်သက်ပြီး သိလိုသမျှကို အချိန်မရွေး ဆက်သွယ်မေးမြန်းနိုင်ပါတယ်။</p>
+            
+            <div class="info-item">
+                <h3>Call Us</h3>
+                <p>+95 9 123 456 789</p>
+                <p>+95 9 987 654 321</p>
+            </div>
+            
+            <div class="info-item">
+                <h3>Location</h3>
+                <p>အမှတ် (၁၂၃)၊ ကမ္ဘာအေးဘုရားလမ်း၊<br>ဗဟန်းမြို့နယ်၊ ရန်ကုန်မြို့။</p>
+            </div>
+            
+            <div class="info-item">
+                <h3>Our Business</h3>
+                <p>thetookpitable@email.com</p>
+            </div>
+        </div>
+
+        <div class="contact-form-container">
+            <form id="my-form" action="https://formspree.io/f/mkoydako" method="POST">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" placeholder="ရှင့်နာမည် ထည့်ပါ" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" placeholder="ရှင့်ရဲ့ Email ထည့်ပါ" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="တို့ဆီ ပေးပို့ချင်တဲ့ မက်ဆေ့ခ်ျ ရေးပါ..." required></textarea>
+                </div>
+                <button type="submit" id="submit-btn" class="btn-submit">Submit</button>
+            </form>
+            <div id="form-status"></div>
+        </div>
+
+    </div>
+</div>
+
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleAuthModal()">&times;</span>
+        <div class="auth-toggle">
+            <button id="toggle-login-btn" class="active" onclick="switchAuthMode('login')">Login</button>
+            <button id="toggle-register-btn" onclick="switchAuthMode('register')">Register</button>
+        </div>
+        
+        <div id="login-form-box" class="auth-form">
+            <input type="text" id="login-user" placeholder="Username သို့မဟုတ် Email" required>
+            <input type="password" id="login-pass" placeholder="Password ထည့်ပါ" required>
+            <button class="btn-auth-submit" style="width:100%;" onclick="handleAuth('login')">ဝင်ရောက်မည်</button>
+        </div>
+
+        <div id="register-form-box" class="auth-form" style="display: none;">
+            <input type="text" id="reg-user" placeholder="Username အသစ်ဖန်တီးပါ" required>
+            <input type="email" id="reg-email" placeholder="Email လိပ်စာထည့်ပါ" required>
+            <input type="password" id="reg-pass" placeholder="Password အသစ်ပေးပါ" required>
+            <button class="btn-auth-submit" style="width:100%;" onclick="handleAuth('register')">အကောင့်ဆောက်မည်</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>The Took Pi Table</h3>
+            <p>Experience the true essence of Myanmar's traditional flavors in every bite. Quality and taste are our priorities.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Our Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Opening Hours</h4>
+            <p>Mon - Sun: 10:00 AM - 9:00 PM</p>
+            <p>Location: Yangon, Myanmar</p>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#">FB</a>
+                <a href="#">IG</a>
+                <a href="#">YT</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 The Took Pi Table. All rights reserved. | Designed for သခင်အောင်နန္ဒ</p>
+    </div>
+</footer>
+
+<script>
+    /* for the nav */
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    /* FIXED: Formspree ကို Redirect မဖြစ်စေဘဲ စာပို့ပေးမည့် AJAX Script */
+    const form = document.getElementById("my-form");
+    const status = document.getElementById("form-status");
+    const submitBtn = document.getElementById("submit-btn");
+
+    form.addEventListener("submit", async function(event) {
+        event.preventDefault(); 
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Sending...";
+
+        const data = new FormData(event.target);
+        
+        try {
+            const response = await fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+
+            if (response.ok) {
+                status.innerHTML = "✓ မက်ဆေ့ခ်ျ ပေးပို့မှု အောင်မြင်ပါတယ်၊ သခင်အောင်နန္ဒရှင့်။";
+                status.style.display = "block";
+                status.style.color = "#ed722a";
+                status.style.background = "#fff0e6";
+                form.reset(); 
+                form.style.display = "none"; 
+            } else {
+                const result = await response.json();
+                if (Object.hasOwn(result, 'errors')) {
+                    status.innerHTML = result.errors.map(error => error.message).join(", ");
+                } else {
+                    status.innerHTML = "Oops! စာပို့ရတာ အဆင်မပြေဖြစ်သွားပါတယ်။";
+                }
+                status.style.display = "block";
+                status.style.color = "red";
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit";
+            }
+        } catch (error) {
+            status.innerHTML = "Network ပြဿနာရှိနေပါတယ်။ နောက်မှ ပြန်လည်ကြိုးစားပါ။";
+            status.style.display = "block";
+            status.style.color = "red";
+            submitBtn.disabled = false;
+            submitBtn.innerText = "Submit";
+        }
+    });
+
+    // FIXED: Authentication Handling Scripts
+    function toggleAuthModal() {
+        const modal = document.getElementById('auth-modal');
+        if(modal.style.display === "flex") {
+            modal.style.display = "none";
+        } else {
+            modal.style.display = "flex";
+        }
+    }
+
+    function clearAuthInputs() {
+        document.getElementById('login-user').value = "";
+        document.getElementById('login-pass').value = "";
+        document.getElementById('reg-user').value = "";
+        document.getElementById('reg-email').value = "";
+        document.getElementById('reg-pass').value = "";
+    }
+
+    function switchAuthMode(mode) {
+        const loginBtn = document.getElementById('toggle-login-btn');
+        const regBtn = document.getElementById('toggle-register-btn');
+        const loginBox = document.getElementById('login-form-box');
+        const regBox = document.getElementById('register-form-box');
+        
+        clearAuthInputs(); 
+
+        if(mode === 'login') {
+            loginBtn.classList.add('active');
+            regBtn.classList.remove('active');
+            loginBox.style.display = "block";
+            regBox.style.display = "none";
+        } else {
+            regBtn.classList.add('active');
+            loginBtn.classList.remove('active');
+            regBox.style.display = "block";
+            loginBox.style.display = "none";
+        }
+    }
+
+    function handleAuth(type) {
+        if(type === 'login') {
+            const user = document.getElementById('login-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " လူကြီးမင်း အကောင့်ထဲ ဝင်ရောက်ခြင်း အောင်မြင်ပါတယ် ရှင်။");
+        } else {
+            const user = document.getElementById('reg-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " အကောင့်သစ် တည်ဆောက်မှု အောင်မြင်ပါသည်၊ သခင်အောင်နန္ဒရှင့်။");
+        }
+        clearAuthInputs();
+        toggleAuthModal();
+    }
+</script>
+</body>
+</html>

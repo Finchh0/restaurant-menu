@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Took Pi's Table - Menu</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6643/6643359.png">
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFF8F1; 
+            background-image: linear-gradient(#FFF8F1 85%, #FFECDB 100%); 
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Navbar Style */
+        nav {
+            position: fixed; 
+            top: 20px;       
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;      
+            max-width: 1200px;
+            background-color: rgb(233, 217, 210); 
+            backdrop-filter: blur(8px);                 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 30px;
+            z-index: 1000;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        nav.scrolled {
+            top: 10px;
+            width: 95%;
+            padding: 0.8rem 2rem; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(12px); 
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        nav .logo {
+            color: #ed722a; 
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #ed722a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffffff;
+            background-color: #ed722a;
+        }
+
+        .nav-btn {
+            background: #ed722a;
+            color: white !important;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+        }
+        .nav-btn:hover { background: #1a1a1a; }
+
+        .categories-container {
+            max-width: 1200px;
+            margin: 120px auto 10px; 
+            padding: 0 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            background: #ffffff;
+            color: #1a1a1a;
+            border: 2px solid #ed722a;
+            padding: 10px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s ease;
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background: #ed722a;
+            color: #ffffff;
+        }
+        
+        /* Cards Layout */
+        .container { max-width: 1200px; margin: 30px auto 60px; padding: 0 20px; }
+        .section-title { text-align: center; margin-bottom: 20px; color: #1a1a1a; font-size: 2.5rem; font-weight: 700; }
+        .section-subtitle { text-align: center; color: #636e72; margin-bottom: 40px; font-size: 1.1rem; }
+        .cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
+        
+        /* FIXED: Card တစ်ခုချင်းစီရဲ့ Layout စနစ်ကို ပြင်ဆင်ထားသည် */
+        .card { 
+            position: relative;
+            background: #ffffff; 
+            border-radius: 15px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
+            transition: 0.3s ease; 
+            display: flex;
+            flex-direction: column;
+            height: 100%; 
+        }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        
+        /* FIXED: စာသားတိုတိုရှည်ရှည် အောက်ခြေထိ တွန်းပို့ပေးရန် ပြင်ဆင်ထားသည် */
+        .card-content { 
+            padding: 20px; 
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+        .card h3 { font-size: 1.2rem; color: #2d3436; margin-bottom: 10px; }
+        
+        /* FIXED: height အသေကို ဖြုတ်ချပြီး flex သုံးထား၍ စာသားများ လျှံထွက်မထပ်တော့ပါ */
+        .card p { 
+            color: #636e72; 
+            font-size: 0.85rem; 
+            line-height: 1.5; 
+            margin-bottom: 15px; 
+            flex-grow: 1; 
+        }
+        
+        .discount-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background-color: #ec723e;
+            color: white;
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 20px;
+            z-index: 10;
+        }
+
+        /* FIXED: စာတိုသော်လည်း ဈေးနှုန်းအား အောက်ခြေ၌ အမြဲတစ်ပြေးညီ ကပ်နေစေသည် */
+        .price-container { 
+            margin-top: auto;
+            margin-bottom: 15px; 
+            display: flex; 
+            align-items: center; 
+            gap: 8px; 
+        }
+        .price-tag { font-size: 1.1rem; font-weight: bold; color: #ec723e; }
+        .old-price { color: #b2bec3; text-decoration: line-through; font-size: 0.9rem; }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .btn-order, .btn-cart { 
+            flex: 1;
+            color: #fff; 
+            padding: 10px 5px; 
+            border: none; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .btn-order { background: #1a1a1a; }
+        .btn-order:hover { background: #ec723e; }
+        .btn-cart { background: #ed722a; }
+        .btn-cart:hover { background: #1a1a1a; }
+
+        /* Modal Popups */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #636e72;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .cart-controls button {
+            background: #ed722a; color: white; border: none;
+            padding: 2px 8px; border-radius: 5px; cursor: pointer;
+        }
+
+        .auth-toggle {
+            display: flex; gap: 10px; margin-bottom: 20px;
+        }
+        .auth-toggle button {
+            flex: 1; padding: 10px; border: none; background: #eee; cursor: pointer; font-weight: bold; border-radius: 8px;
+        }
+        .auth-toggle button.active {
+            background: #ed722a; color: white;
+        }
+        .auth-form input {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { 
+            .cards-grid { grid-template-columns: 1fr; }
+            nav { flex-direction: column; gap: 15px; height: auto; }
+            .categories-container { margin-top: 220px; } 
+        }
+        
+        footer { background-color: #1a1a1a; color: #ffffff; padding: 60px 0 20px; margin-top: 80px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; padding: 0 20px; }
+        .footer-section h3 { color: #ec723e; margin-bottom: 20px; font-size: 1.5rem; }
+        .footer-section h4 { margin-bottom: 20px; position: relative; padding-bottom: 10px; }
+        .footer-section h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background-color: #ec723e; }
+        .footer-section p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; }
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a { color: #b2bec3; text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
+        .footer-section ul li a:hover { color: #ec723e; padding-left: 5px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-links a { width: 35px; height: 35px; background: #2d3436; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; text-decoration: none; font-size: 0.8rem; }
+        .footer-bottom { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #2d3436; font-size: 0.8rem; color: #636e72; }
+        @media (max-width: 768px) { .footer-container { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 480px) { .footer-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="logo">THE TOOK PI'S TABLE</div>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><button class="nav-btn" onclick="toggleModal('cart-modal')">Cart<span id="cart-count" class="cart-badge">0</span></button></li>
+        <li><button class="nav-btn" id="user-nav-btn" onclick="toggleModal('auth-modal')">Login</button></li>
+    </ul>
+</nav>
+
+<div class="categories-container">
+    <button class="category-btn active" onclick="filterMenu('all', event)">အားလုံး</button>
+    <button class="category-btn" onclick="filterMenu('mains', event)">အဓိကဟင်းပွဲများ</button>
+    <button class="category-btn" onclick="filterMenu('promotions', event)">စျေးချထားသောဟင်းပွဲများ</button>
+    <button class="category-btn" onclick="filterMenu('breakfast', event)">မနက်စာ </button>
+    <button class="category-btn" onclick="filterMenu('desserts', event)">အချိုပွဲများ</button>
+    <button class="category-btn" onclick="filterMenu('fries', event)">အကြော်များ</button>
+    <button class="category-btn" onclick="filterMenu('salads', event)">အသုပ်များ</button>
+    <button class="category-btn" onclick="filterMenu('drinks', event)">သောက်စရာများ</button>
+</div>
+
+<div class="container">
+    <h1 class="section-title">ကျွန်ုပ်တို့ဆိုင်၏ အရသာရှိသော Menu များ</h1>
+    <p class="section-subtitle">သန့်ရှင်းလတ်ဆတ်ပြီး အရသာပြည့်စုံသော ရိုးရာအစားအစာများကို စိတ်ကြိုက်ရွေးချယ်မှာယူနိုင်ပါသည်။</p>
+    
+    <div class="cards-grid" id="grid"></div>
+</div>
+
+<div id="cart-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleModal('cart-modal')">&times;</span>
+        <h2>Your Shopping Cart</h2>
+        <div id="cart-items-wrapper" style="margin: 20px 0; max-height: 250px; overflow-y: auto;">
+            <p style="color: #636e72;">ခြင်းတောင်းထဲတွင် မည်သည့်အစားအစာမှ မရှိသေးပါ။</p>
+        </div>
+        <h3 style="text-align: right;">Total: <span id="cart-total-price" style="color: #ed722a;">0</span> ကျပ်</h3>
+        <button class="btn-order" style="width:100%; margin-top: 15px;" onclick="checkoutCart()">Checkout Now</button>
+    </div>
+</div>
+
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleModal('auth-modal')">&times;</span>
+        <div class="auth-toggle">
+            <button id="toggle-login-btn" class="active" onclick="switchAuthMode('login')">Login</button>
+            <button id="toggle-register-btn" onclick="switchAuthMode('register')">Register</button>
+        </div>
+        
+        <div id="login-form-box" class="auth-form">
+            <input type="text" id="login-user" placeholder="Username သို့မဟုတ် Email" required>
+            <input type="password" id="login-pass" placeholder="Password ထည့်ပါ" required>
+            <button class="btn-order" style="width:100%;" onclick="handleAuth('login')">ဝင်ရောက်မည်</button>
+        </div>
+
+        <div id="register-form-box" class="auth-form" style="display: none;">
+            <input type="text" id="reg-user" placeholder="Username အသစ်ဖန်တီးပါ" required>
+            <input type="email" id="reg-email" placeholder="Email လိပ်စာထည့်ပါ" required>
+            <input type="password" id="reg-pass" placeholder="Password အသစ်ပေးပါ" required>
+            <button class="btn-order" style="width:100%;" onclick="handleAuth('register')">အကောင့်ဆောက်မည်</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const products = [
+        { id: 1, title: "လက်ဖက်သုပ်", price: 2500, oldPrice: "", discount: "", category: ["salads", "mains"], 
+        img: "https://farm2.static.flickr.com/1065/3170728176_678fa12651_o.jpg", desc: "လတ်ဆတ်တဲ့ လက်ဖက်ညွန့်နဲ့ အကြော်စုံတို့ ပေါင်းစပ်ထားတဲ့ မြန်မာ့အကြိုက်ဆုံး လက်ဖက်သုပ်။" },
+        { id: 2, title: "ရှမ်းခေါက်ဆွဲ", price: 2600, oldPrice: "3,500 ကျပ်", discount: "25% OFF", category: ["breakfast", "promotions", "mains"], 
+        img: "https://images.deliveryhero.io/image/fd-mm/LH/g5jx-listing.jpg", desc: "ရှမ်းပြည်နယ်ရဲ့ နာမည်ကျော် ရှမ်းခေါက်ဆွဲ - အသားနဲ့ အနှစ် အရသာ စိမ့်နေအောင် ပြုပြင်ထားသည်။" },
+        { id: 3, title: "ကောက်ညှင်းပေါင်း", price: 3500, oldPrice: "", discount: "", category: ["breakfast"], 
+        img: "https://www.myanmaritv.com/sites/default/files/styles/recipe_detail/public/Kaung%20Nyin%20Paung%203.jpg?itok=Im7zYmL1", desc: "မွှေးပျံ့နေတဲ့ ကောက်ညှင်းပေါင်းကို ပဲပြုတ်, ဆီချက်တို့နဲ့ အရသာရှိရှိ စားသုံးနိုင်မှာပါ။" },
+        { id: 4, title: "မုန့်ဟင်းခါး", price: 1800, oldPrice: "2,500 ကျပ်", discount: "25% OFF", category: ["breakfast" ,"promotions"], 
+        img: "https://grantourismotravels.com/wp-content/uploads/2015/07/What-to-Eat-in-Myanmar-Mohinga-Noodles-Mandalay-Myanmar-Copyright-2022-Terence-Carter-Grantourismo-T.jpg", desc: "မြန်မာတို့ရဲ့ အကြိုက်ဆုံး ရိုးရာနံနက်စာ - ငါးခူစစ်စစ်နဲ့ ချက်ထားတဲ့ အနံ့အရသာပြည့်စုံတဲ့ မုန့်ဟင်းခါး။" },
+        { id: 5, title: "နန်းကြီးသုပ်", price: 4100, oldPrice: "5500", discount: "25% OFF", category: ["breakfast","promotions"], 
+        img: "https://s3.amazonaws.com/shecodesio-production/uploads/files/000/073/252/original/Nan_Gyi_Thoke.jpg?1679583765", desc: "အသားနှစ်အနှစ်နဲ့ နယ်ထားတဲ့ ဆန်လုံးကြီးခေါက်ဆွဲသုပ် - အပေါ်က ကြက်သွန်မြိတ်နဲ့ အကြော်လေးတွေ ဖြူးထားရင် ရှယ်ပဲ။" },
+        { id: 6, title: "အီကြာကွေး", price: 1000, oldPrice: "", discount: "", category: ["breakfast"], 
+        img: "https://travel-myanmar.net/wp-content/uploads/2020/06/E-Kya-Kway-1.jpg", desc: "အပြင်က ကြွပ်ကြွပ်၊ အတွင်းက နူးနူးညံ့ညံ့နဲ့ ပူပူနွေးနွေး အီကြာကွေး - ဘယ်အရာနဲ့မဆို လိုက်ဖက်ပါတယ်။" },
+        { id: 7, title: "ရွှေရင်အေး", price: 2200, oldPrice: "3,000 ကျပ်", discount: "25% OFF", category: ["desserts","promotions"], 
+        img: "https://thespace.ink/wp-content/uploads/2025/02/Swhe-Yin-Aye.jpg", desc: "ကျောက်ကျော၊ ကောက်ညှင်း၊ မုန့်လက်ဆောင်းနဲ့ ပေါင်မုန့်တို့ကို အုန်းနို့အေးအေးလေးနဲ့ ရောစပ်ထားတဲ့ မြန်မာ့ရိုးရာအချိုပွဲ။" },
+        { id: 8, title: "အုန်းနို့ခေါက်ဆွဲ", price: 3000, oldPrice: "", discount: "", category: ["breakfast"], 
+        img: "https://cdn.tasteatlas.com/images/dishes/cc224991d97c4d8aa004ce241d76c4ac.jpg?w=1476&h=830", desc: "အုန်းနို့အနှစ်ရဲ့ စိမ့်အိတဲ့အရသာ၊ ကြက်သားနူးနူးလေးနဲ့ ခေါက်ဆွဲသားအိအိတို့ရဲ့ အကောင်းဆုံးပေါင်းစပ်မှု။" },
+        { id: 9, title: "ထန်းရေ", price: 3000, oldPrice: "", discount: "", category: ["drinks"], 
+        img: "https://cdn.hellosayarwon.com/wp-content/uploads/2020/04/HtmKIA5Iw8.jpg?w=1080&q=75", desc: "အညာဒေသ ထန်းတောကွင်းစစ်စစ်မှ နေ့စဉ်လတ်လတ်ဆတ်ဆတ် ဆွဲချရယူထားသော မြန်မာ့ရိုးရာ ထန်းရေစစ်စစ် ဖြစ်ပါသည်။" },
+        { id: 10, title: "ဂျင်းသုပ်", price: 2500, oldPrice: "", discount: "", category: ["salads"], 
+        img: "https://mingalarparrestaurant.com/storage/menu-images/01KE3HW3B44YSYPPVB9DHBTQ92.jpg", desc: "ကြွပ်ရွတဲ့ အကြော်စုံ၊ မြေပဲလှော်တို့နဲ့အတူ ချင်း (ဂျင်း) ရဲ့ အဖန်အရသာကို အချိုးကျကျ ပေါင်းစပ်ထားတဲ့ မြန်မာ့ရိုးရာ သရေစာ။" },
+        { id: 11, title: "မုန့်တီသုပ်", price: 3000, oldPrice: "", discount: "", category: ["salads", "mains"], img: "https://i.ytimg.com/vi/lV9XYL8Q88s/maxresdefault.jpg", desc: "မုန့်ဖတ်အိအိလေးကို ငါးဖယ်၊ အသားနှစ်၊ ဆီချက်တို့နဲ့ စိမ့်နေအောင် နယ်ဖတ်ထားတဲ့ ရခိုင်ရိုးရာ အာပူလျှာပူ မုန့်တီသုပ်။" },
+        { id: 12, title: "ကျောက်ပွင့်သုပ်", price: 3500, oldPrice: "", discount: "", category: ["salads"], 
+        img: "https://mingalarparrestaurant.com/storage/menu-images/01KE9M548DWBA36105FD747T24.jpg", desc: "ကျောက်ပွင့်ရဲ့ တကျွတ်ကျွတ်ဝါးလို့ကောင်းတဲ့ အထိအတွေ့ကို ကြက်သွန်နီ၊ နှမ်းလှော်၊ ဆီချက်တို့နဲ့ သုပ်ထားတဲ့ ခံတွင်းမြိန်စေမယ့် အသုပ်။" },
+        { id: 13, title: "မြင်းခွာရွက်သုပ်", price: 2000, oldPrice: "", discount: "", category: ["salads"], 
+        img: "https://mingalarparrestaurant.com/storage/menu-images/01KE3J3VR6N5FBP9R4ZAP52FZR.jpg", desc: "လတ်ဆတ်တဲ့ မြင်းခွာရွက်စိမ်းစိမ်းလေးတွေကို ကြက်သွန်နီ၊ မြေပဲမှုန့်တို့နဲ့ ချဉ်ဖြန်းဖြန်းလေး သုပ်ထားတဲ့ ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ အသုပ်။" },
+        { id: 14, title: "သရက်ချဉ်သုပ်", price: 2100, oldPrice: "", discount: "", category: ["salads"], 
+        img: "https://mingalarparrestaurant.com/storage/menu-images/01KM2SXSWZZ8YFPNXNVPPJP1RK.jpg", desc: "သရက်သီးအချဉ်တည်ထားတာကို ကြက်သွန်ဆီချက်၊ ငရုတ်သီးစိမ်းတို့နဲ့ စပ်စပ်လေး သုပ်ထားတဲ့ ထမင်းမြိန်စေမယ့် မြန်မာ့ရိုးရာ အမြည်း။" },
+        { id: 15, title: "မရမ်းသီးသုပ်", price: 3000, oldPrice: "", discount: "", category: ["salads"], 
+        img: "https://mingalarparrestaurant.com/storage/menu-images/01KM2TAJY2NM5SW39MGMTDM3MN.jpg", desc: "မရမ်းသီးရဲ့ ချဉ်စူးစူးအရသာကို ပုစွန်ခြောက်မှုန့်၊ ငရုတ်သီးခွဲခြမ်းတို့နဲ့ သုပ်ထားတဲ့ သွားရည်ကျစရာ ချဉ်ချဉ်စပ်စပ် အသုပ်။" },
+        { id: 16, title: "တိုဟူးနွေး", price: 4000, oldPrice: "", discount: "", category: ["breakfast"], 
+        img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjMl2ol7welBnHxmbrXnNgXo9yPRoTLQbahA-3Wa3-nWiu2VLMFwqfAbTWgfyLJsNN3z_StQS3HMPpRQSsz3fiVCAK948iQEbdc0WDNWOioSRrsxc_pkZ-P6__GSe0Mn3Co0PjdbjLYvck/s1600/20191121-c69C9UIQCq.gif", desc: "ပဲကျိုရည်အိအိ၊ ဆန်စီးခေါက်ဆွဲ၊ ကြက်သားအနှစ်နဲ့ ငရုတ်သီးဆီဖတ်တို့ ရောစပ်ထားတဲ့ နွေးထွေးမွှေးပျံ့လှတဲ့ ရှမ်းရိုးရာ။" },
+        { id: 17, title: "ပဲပြုတ်နှင့်နံပြား", price: 1500, oldPrice: "", discount: "", category: ["breakfast"], 
+        img: "https://images.deliveryhero.io/image/fd-mm/LH/dcqf-listing.jpg", desc: "အညာထွက် ပဲပြုတ်ဆီဆမ်းနဲ့ နံပြားအိအိလေးရယ်... တစ်နေ့တာကို ခွန်အားပြည့်ပြည့်ဝဝနဲ့ စတင်ဖို့ အကောင်းဆုံးတွဲဖက်ပေါ့။" },
+        { id: 18, title: "မန်းကျည်းဖျော်ရည်", price: 1500, oldPrice: "", discount: "", category: ["drinks"], 
+        img: "https://www.foodindustrydirectory.com.mm/media/k2/items/cache/f35cd86e77728ea2e15a1259a0a61c0c_XL.jpg", desc: "မန်းကျည်းသီးအနှစ်စစ်စစ်ရဲ့ ချဉ်ချဉ်တုံတုံအရသာနဲ့ ရင်အေးစေမယ့် နွေရာသီအမောပြေဖျော်ရည်။" },
+        { id: 19, title: "အချိုစိမ့်", price: 1500, oldPrice: "", discount: "", category: ["drinks"], 
+        img: "https://mingalarparrestaurant.com/storage/menu-images/01KCZJGRJANFC3DV3DSN8DJ20A.jpg", desc: "နို့စိမ်း၊ နို့ဆီတို့ရဲ့ စိမ့်အိချိုမြိန်တဲ့အရသာ... ရိုးရာလက်ဖက်ရည်ချိုစိမ့် စစ်စစ်။" },
+        { id: 20, title: "ဒိန်ချဥ်", price: 1000, oldPrice: "", discount: "", category: ["drinks"], 
+        img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEgm7j6G3PCb528mHIratwyEUWgKbBJEpwbhIPuL8rfmm7cbnucHeJGcrITSJXjJDNGeryfkq2bfrSSKLBEST5XALFWF7AQrJU2LpSzX5Oz1qy2IOYczCn7qobXWKep8K_HYqaWd5ld-gss/w1200-h630-p-k-no-nu/yogurt.jpg", desc: "လတ်ဆတ်ပြီး သဘာဝအတိုင်း အချဉ်တည်ထားလို့ ခံတွင်းလိုက်ပြီး ကျန်းမာရေးနဲ့ညီညွတ်တဲ့ ဒိန်ချဉ်။" },
+        { id: 21, title: "ဘူးသီးကြော်", price: 1000, oldPrice: "", discount: "", category: ["fries"], 
+        img: "https://upload.wikimedia.org/wikipedia/commons/5/59/%E1%80%98%E1%80%B0%E1%80%B8%E1%80%9E%E1%80%AE%E1%80%B8%E1%80%80%E1%80%BC%E1%80%B1%E1%80%AC%E1%80%BA.png", desc: "အပြင်သား ကြွပ်ကြွပ်ရွရွ၊ အတွင်းက ဘူးသီးအနှစ်နူးညံ့ညံ့နဲ့ မြန်မာ့အကြိုက်ဆုံး အကြော်အလှော်။" },
+        { id: 22, title: "ကြက်သွန်ကြော်", price: 500, oldPrice: "", discount: "", category: ["fries"], 
+        img: "https://i.ytimg.com/vi/aoWP1x6aaYU/sddefault.jpg", desc: "ကြက်သွန်နီကို ရွှေဝါရောင်သန်းပြီး မွှေးပျံ့ကြွပ်ရွနေအောင် စနစ်တကျ ကြော်ထားတဲ့ အမြည်း။" },
+        { id: 23, title:"ပဲကပ်ကြော်" , price:600 , oldPrice: "" , discount:"", category: ["fries"] ,
+        img: "https://i.ytimg.com/vi/R4Cbk71qtVc/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDlAoQ3xG4HIRPsdCG_iYjOzXIsug", desc:"ကုလားပဲခြမ်း ကြွပ်ကြွပ်ရွရွလေးတွေ ကပ်နေအောင် ကြော်ထားတဲ့ မြန်မာ့အကြိုက်ဆုံး လက်ဖက်ရည်ဝိုင်းအမြည်း။"},
+        { id: 24, title:"တိုဟူးကြော်" , price:500 , oldPrice: "" , discount:"", category: ["fries"] ,
+        img: "https://i.ytimg.com/vi/rIMSZjHIWqw/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA9ZQjL5b8rsIu0oMHAddzOaoiOgg", desc:"အပြင်က ကြွပ်ပြီး အတွင်းက တိုဟူးနှစ်အိအိလေးနဲ့ ရှမ်းပြည်နယ်စစ်စစ် အရသာ အကြော်ပူပူ"},
+        { id: 25, title:"မုန့်လက်ဆောင်း" , price:1800 , oldPrice: "" , discount:"", category: ["desserts"] ,
+        img: "https://greenway.sgp1.digitaloceanspaces.com/post_covers/9cbd3428e5394ef02170cde6eb79967a.png", desc:"ထန်းလျက်ရည်မွှေးမွှေး၊ အုန်းနို့စိမ့်စိမ့်ထဲ မုန့်ဖတ်စိမ်းစိမ်းလေးတွေနဲ့ ရင်အေးစေမယ့် ရိုးရာအချိုပွဲ။"},
+        { id: 26, title:"ဆနွင်းမကင်D" , price:1500 , oldPrice: "" , discount:"", category: ["desserts"] ,
+        img: "https://i.ytimg.com/vi/1KKbaAI6d44/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAN5Jz9rNSoHtvK_9HoHGdXxx4fzw", desc:"ရွှေကြည်မှုန့်၊ အုန်းနို့တို့နဲ့ မွှေးပျံ့အိစိမ့်ပြီး ဘိန်းနှံလေးတွေ ဖြူးထားတဲ့ မြန်မာ့ရိုးရာ ကိတ်မုန့်။"},
+        { id: 27, title:"ကျောက်ကျော" , price:1200 , oldPrice: "" , discount:"", category: ["desserts"] ,
+        img: "https://i.ytimg.com/vi/0kvDF9S_GqI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA_xKVDP9YQH8yCCt2x8NWWWTtF_A", desc:"အုန်းနို့အလွှာနဲ့ ကျောက်ကျောအကြည်လွှာတို့ရဲ့ အေးမြချိုစိမ့်တဲ့ အရသာခံစားချက်။"},
+        { id: 28, title:"ဘိန်းမုန့်" , price:600 , oldPrice: "" , discount:"", category: ["desserts"] ,
+        img: "https://images.deliveryhero.io/image/fd-mm/LH/vqzy-listing.jpg", desc:"ဆန်မုန့်နှစ်အိအိပေါ်မှာ ထန်းလျက်၊ အုန်းသီးဖတ်နဲ့ ဘိန်းနှံမွှေးမွှေးလေးတွေ တင်ပြီး ဖုတ်ထားတဲ့ ရိုးရာမုန့်ပူပူ။"},
+    ];
+    
+    let cart = []; 
+    const grid = document.getElementById('grid');
+
+    function displayMenu(items) {
+        grid.innerHTML = "";
+        items.forEach(p => {
+            const badgeHTML = p.discount ? `<div class="discount-badge">${p.discount}</div>` : '';
+            const oldPriceHTML = p.oldPrice ? `<span class="old-price">${p.oldPrice}</span>` : '';
+
+            grid.innerHTML += `
+                <div class="card">
+                    ${badgeHTML}
+                    <img src="${p.img}" alt="${p.title}">
+                    <div class="card-content">
+                        <h3>${p.title}</h3>
+                        <p>${p.desc}</p>
+                        <div class="price-container">
+                            ${oldPriceHTML}
+                            <span class="price-tag">${p.price.toLocaleString()} ကျပ်</span>
+                        </div>
+                        <div class="action-buttons">
+                            <button class="btn-cart" onclick="addToCart(${p.id}, false)">Add to Cart</button>
+                            <button class="btn-order" onclick="addToCart(${p.id}, true)">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function addToCart(id, isOrderNow) {
+        const item = products.find(p => p.id === id);
+        const existing = cart.find(c => c.id === id);
+        
+        if(existing) {
+            existing.quantity++;
+        } else {
+            cart.push({ ...item, quantity: 1 });
+        }
+        updateCartUI();
+
+        if(isOrderNow) {
+            document.getElementById('cart-modal').style.display = "flex";
+        }
+    }
+
+    function updateCartUI() {
+        const countBadge = document.getElementById('cart-count');
+        const wrapper = document.getElementById('cart-items-wrapper');
+        const totalText = document.getElementById('cart-total-price');
+        
+        let totalCount = 0;
+        let totalPrice = 0;
+        
+        if(cart.length === 0) {
+            wrapper.innerHTML = `<p style="color: #636e72;">ခြင်းတောင်းထဲတွင် မည်သည့်အစားအစာမှ မရှိသေးပါ။</p>`;
+        } else {
+            wrapper.innerHTML = "";
+            cart.forEach(c => {
+                totalCount += c.quantity;
+                totalPrice += (c.price * c.quantity);
+                
+                wrapper.innerHTML += `
+                    <div class="cart-item">
+                        <div>
+                            <h4 style="margin:0;">${c.title}</h4>
+                            <small style="color:#ed722a;">${c.price.toLocaleString()} x ${c.quantity}</small>
+                        </div>
+                        <div class="cart-controls">
+                            <button onclick="changeQty(${c.id}, -1)">-</button>
+                            <span style="margin: 0 5px; font-weight:bold;">${c.quantity}</span>
+                            <button onclick="changeQty(${c.id}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+        countBadge.innerText = totalCount;
+        totalText.innerText = totalPrice.toLocaleString();
+    }
+
+    function changeQty(id, delta) {
+        const item = cart.find(c => c.id === id);
+        if(!item) return;
+        item.quantity += delta;
+        if(item.quantity <= 0) {
+            cart = cart.filter(c => c.id !== id);
+        }
+        updateCartUI();
+    }
+
+    function checkoutCart() {
+        if(cart.length === 0) {
+            alert("ခြင်းတောင်းထဲ ပစ္စည်းအရင်ထည့်ပါဦး ရှင်!");
+            return;
+        }
+        alert("ခြင်းတောင်းထဲက အစားအစာအားလုံးကို မှာယူပြီးပါပြီ။ ကျေးဇူးတင်ပါတယ် သခင်အောင်နန္ဒရှင့်😊");
+        cart = [];
+        updateCartUI();
+        toggleModal('cart-modal');
+    }
+
+    function toggleModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if(modal.style.display === "flex") {
+            modal.style.display = "none";
+        } else {
+            modal.style.display = "flex";
+        }
+    }
+
+    function clearAuthInputs() {
+        document.getElementById('login-user').value = "";
+        document.getElementById('login-pass').value = "";
+        document.getElementById('reg-user').value = "";
+        document.getElementById('reg-email').value = "";
+        document.getElementById('reg-pass').value = "";
+    }
+
+    function switchAuthMode(mode) {
+        const loginBtn = document.getElementById('toggle-login-btn');
+        const regBtn = document.getElementById('toggle-register-btn');
+        const loginBox = document.getElementById('login-form-box');
+        const regBox = document.getElementById('register-form-box');
+        
+        clearAuthInputs();
+
+        if(mode === 'login') {
+            loginBtn.classList.add('active');
+            regBtn.classList.remove('active');
+            loginBox.style.display = "block";
+            regBox.style.display = "none";
+        } else {
+            regBtn.classList.add('active');
+            loginBtn.classList.remove('active');
+            regBox.style.display = "block";
+            loginBox.style.display = "none";
+        }
+    }
+
+    function handleAuth(type) {
+        if(type === 'login') {
+            const user = document.getElementById('login-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " လူကြီးမင်း အကောင့်ထဲ ဝင်ရောက်ခြင်း အောင်မြင်ပါတယ် ရှင်။");
+        } else {
+            const user = document.getElementById('reg-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " အကောင့်သစ် တည်ဆောက်မှု အောင်မြင်ပါသည်၊ သခင်အောင်နန္ဒရှင့်။");
+        }
+        clearAuthInputs();
+        toggleModal('auth-modal');
+    }
+
+    function filterMenu(category, e) {
+        const buttons = document.querySelectorAll('.category-btn');
+        buttons.forEach(btn => btn.classList.remove('active'));
+        
+        if (e && e.target) {
+            e.target.classList.add('active');
+        } else if (window.event && window.event.target) {
+            window.event.target.classList.add('active');
+        }
+
+        if(category === 'all') {
+            displayMenu(products);
+        } else {
+            const filtered = products.filter(p => p.category.includes(category));
+            displayMenu(filtered);
+        }
+    }
+
+    displayMenu(products);
+
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>The Took Pi Table</h3>
+            <p>Experience the true essence of Myanmar's traditional flavors in every bite. Quality and taste are our priorities.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="#">Our Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Opening Hours</h4>
+            <p>Mon - Sun: 10:00 AM - 9:00 PM</p>
+            <p>Location: Yangon, Myanmar</p>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#">FB</a>
+                <a href="#">IG</a>
+                <a href="#">YT</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 The Took Pi Table. All rights reserved. | Designed for သခင်အောင်နန္ဒ</p>
+    </div>
+</footer>
+
+</body>
+</html>

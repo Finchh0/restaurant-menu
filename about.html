@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - The Took Pi's Table</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6643/6643359.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #FFF8F1; 
+            background-image: linear-gradient(#FFF8F1 85%, #FFECDB 100%); 
+            min-height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(122, 48, 207, 0.05);
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        /* FIXED: Menu Page နှင့် ပုံစံတူ Navbar Design ညှိခြင်း */
+        nav {
+            position: fixed; 
+            top: 20px;       
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;      
+            max-width: 1200px;
+            background-color: rgb(233, 217, 210); 
+            backdrop-filter: blur(8px);                 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 16px; /* Menu Page နှင့် ကိုက်ညီအောင် ၁၆px ပြောင်းလဲထားသည် */
+            z-index: 1000;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        /* Scroll ဆွဲလိုက်တဲ့အခါ ဖြစ်သွားမယ့် Glassmorphism ပုံစံ */
+        nav.scrolled {
+            top: 10px;
+            width: 95%;
+            padding: 0.8rem 2rem; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        nav .logo {
+            color: #ed722a; 
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            margin: 0;
+            padding: 0;
+            align-items: center; /* FIXED: Navbar အတွင်းရှိ စာသားများ အလယ်ဗဟို၌ တစ်တန်းတည်း ညီနေစေရန် */
+        }
+
+        nav ul li a {
+            color: #ed722a; /* Menu Page အတိုင်း ပုံမှန်စာသားအရောင် ပြောင်းလဲထားသည် */
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffffff;
+            background-color: #ed722a;
+        }
+
+        .nav-btn {
+            background: #ed722a;
+            color: white !important;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            font-size: 0.95rem;
+            transition: 0.3s ease;
+        }
+        .nav-btn:hover { background: #1a1a1a; }
+
+        /* FIXED: Categories Button မရှိသဖြင့် Container ထိပ်ပိုင်းနေရာလွတ်အား စနစ်တကျပြင်ဆင်ခြင်း */
+        .container { 
+            max-width: 1100px; 
+            margin: 120px auto 60px; /* Navbar အောက် တိုးမဝင်စေရန် margin-top 120px ပြောင်းထားသည် */
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        /* --- Owner Profile Block with Hover Animation --- */
+        .owner-header {
+            display: flex;
+            align-items: center;
+            gap: 40px;
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 60px;
+            /* COMMENT: Animation ချောမွေ့စွာ ဖြစ်ပေါ်စေရန် transition ထည့်သွင်းခြင်း */
+            transition: all 0.4s ease; 
+        }
+
+        /* COMMENT: အဖွဲ့ဝင်ကတ်များကဲ့သို့ Hover လုပ်လျှင် ပုံရိပ်ကြီးလာပြီး Shadow ထွက်လာစေရန် */
+        .owner-header:hover {
+            transform: scale(1.02); /* Card အကျယ်ကြီးဖြစ်၍ မပျက်စေရန် scale ကို အနည်းငယ်ပဲ တင်ထားသည် */
+            box-shadow: 0 15px 35px rgb(244, 126, 63);
+        }
+        /* Hexagon Shape for Owner */
+        .owner-frame {
+            width: 200px;
+            height: 220px;
+            flex-shrink: 0;
+            background: #ed722a;
+            display: flex;
+            border-radius: 30px;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .owner-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .owner-bio {
+            flex-grow: 1;
+            padding: 20px 40px;
+            background: #fbfafa;
+            color:#ed722a ;
+            border-radius: 50px;
+            border: 1px solid #ed722a;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            border-bottom: 10px solid #ec723e;
+        }
+
+        /* --- Team Cards --- */
+        .team-section { text-align: center; }
+        .team-section h2 { font-size: 2rem; margin-bottom: 30px; color: #1a1a1a; }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        /* COMMENT: ကတ်ပြားအားလုံး၏ Height နှင့် Width ကို ညီညာစေရန် ပြင်ဆင်ထားသော အပိုင်း */
+        .team-card {
+            background: #ed722a;
+            padding: 40px 25px; /* Content ဆန့်စေရန် padding အနည်းငယ် ညှိထားသည် */
+            border-radius: 50px;
+            border: 3px solid #ffffff;
+            height: 100%; /* COMMENT: စာသားအနည်းအများပေါ်မူတည်ပြီး ကတ်များ၏ အမြင့်ကို တစ်ပြေးညီဖြစ်စေရန် height 100% ပြောင်းလဲထားသည် */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* COMMENT: ကတ်အတွင်းရှိ element များ သေသပ်စွာ အပေါ်မှ အောက်သို့ တန်းစီနေစေရန် */
+            transition: all 0.4s ease;
+        }
+
+        .team-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(122, 48, 207, 0.3);
+        }
+
+        .member-img-placeholder {
+            width: 160px; /* COMMENT: ကတ်အရွယ်အစားနှင့် မျှတစေရန် ပုံအကျယ်အား ၁၆၀px သို့ ညှိထားသည် */
+            height: 160px;
+            background: #f0f0f0;
+            margin-bottom: 25px;
+            border-radius: 30px;
+            overflow: hidden;
+            border: 2px solid #ffffff;
+            flex-shrink: 0; /* COMMENT: စာသားများလာပါက ပုံပုံသဏ္ဍာန် ပျက်မသွားစေရန် */
+        }
+
+        .member-img-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .team-card h3 {
+            font-size: 1.4rem; /* COMMENT: ကတ်အကျယ်နှင့် လိုက်ဖက်ညီစေရန် ဖောင့်ဆိုက်အနည်းငယ် ညှိထားသည် */
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .team-card p {
+            font-size: 1rem; /* COMMENT: စာသားဖတ်ရ ရှင်းလင်းစေရန် ၁rem သို့ ညှိထားသည် */
+            color: white;
+            line-height: 1.5; /* COMMENT: စာကြောင်းများ ကပ်မနေစေရန် */
+            text-align: center;
+        }
+
+        /* --- Business Info Block --- */
+        .business-info-block {
+            background: #ffffff;
+            color: rgb(0, 0, 0);
+            padding: 80px 40px;
+            border-radius: 40px;
+            text-align: center;
+            margin-top: 60px;
+            border-left: 10px solid #ec723e;
+        }
+        .business-info-block h2 { color: #ec723e; margin-bottom: 20px; font-size: 2rem; }
+        .business-info-block p { max-width: 800px; margin: 0 auto; font-size: 1.2rem; opacity: 0.9; }
+
+        /* Authentication Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2500;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #636e72;
+        }
+        .auth-toggle { display: flex; gap: 10px; margin-bottom: 20px; }
+        .auth-toggle button {
+            flex: 1; padding: 10px; border: none; background: #eee; cursor: pointer; font-weight: bold; border-radius: 8px;
+        }
+        .auth-toggle button.active { background: #ed722a; color: white; }
+        .auth-form input {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; outline: none;
+        }
+        .btn-submit {
+            background: #ed722a; color: #fff; padding: 12px; border: none; border-radius: 7px; cursor: pointer; font-weight: 600; font-size: 0.95rem; transition: 0.3s;
+        }
+        .btn-submit:hover { background: #1a1a1a; }
+
+        /* Footer Styles */
+        footer {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 60px 0 20px;
+            margin-top: 80px;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            color: #ec723e;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-section h4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 30px;
+            height: 2px;
+            background-color: #ec723e;
+        }
+
+        .footer-section p {
+            color: #b2bec3;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-section ul { list-style: none; padding: 0; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a {
+            color: #b2bec3;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .footer-section ul li a:hover {
+            color: #ec723e;
+            padding-left: 5px;
+        }
+
+        .social-links { display: flex; gap: 15px; }
+        .social-links a {
+            width: 35px;
+            height: 35px;
+            background: #2d3436;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 0.8rem;
+        }
+
+        .social-links a:hover {
+            background: #ec723e;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 1px solid #2d3436;
+            font-size: 0.8rem;
+            color: #636e72;
+        }
+
+        @media (max-width: 768px) {
+            .footer-container { grid-template-columns: repeat(2, 1fr); }
+            .team-grid { grid-template-columns: 1fr; }
+            .owner-header { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) { .footer-container { grid-template-columns: 1fr; } }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="logo">THE TOOK PI'S TABLE</div>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><button class="nav-btn" id="user-nav-btn" onclick="toggleAuthModal()">Login</button></li>
+    </ul>
+</nav>
+
+<div class="container">
+    <section class="owner-header">
+        <div class="owner-frame">
+            <img src="https://avatarfiles.alphacoders.com/378/thumb-350-378520.webp" alt="Owner"> 
+        </div>
+        <div class="owner-bio">
+            <p>"Mrs. Took Pi တည်ထောင်ထားတဲ့ တို့ရဲ့ The Took Pi's Table ဟာ 
+                မြန်မာ့ရိုးရာအစားအစာတွေကို စေတနာအရင်းခံကာ မိသားစုထမင်းဝိုင်းလို 
+                နွေးထွေးမှုမျိုးနဲ့ ရှင့်ဆီ အရောက်ပို့ဆောင်ပေးနေပါတယ်။ အရသာနှင့် အရည်အသွေးအပြင် 
+                လူကြီးမင်းတို့ရဲ့ စိတ်ကျေနပ်မှုကိုပါ အပြည့်အဝပေးစွမ်းနိုင်ဖို့ တို့အမြဲ ကြိုးပမ်းနေပါတယ် ရှင်။"
+            </p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2 style="color: #ed722a;">ကျွန်ုပ်တို့၏အဖွဲ့သားများ</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="member-img-placeholder">
+                    <img src="https://images.immediate.co.uk/production/volatile/sites/3/2023/12/The-Boy-and-the-Heron--d85f32b.png" alt="Team 1">
+                </div>
+                <h3>အောင်နန္ဒထွန်း</h3>
+                <h3>(စားဖိုမှူးချုပ်)</h3>
+                <p>ဟင်းလျာများ၏ အရသာစစ်စစ်ကို ဖန်တီး အဓိကကြပ်မတ်ပေးသူ ဖြစ်ပါသည်။</p>
+            </div>
+            <div class="team-card">
+                <div class="member-img-placeholder">
+                    <img src="https://i.redd.it/im-confused-about-koby-v0-ky8tmzlbfdkd1.jpg?width=190&format=pjpg&auto=webp&s=3b28e23fde17a99945f6014347d0d1c19f98b57a" alt="Team 2">
+                </div>
+                <h3>ဝမ်းမောင်မောင်သန့်</h3>
+                <h3>(ငွေကိုင်)</h3>
+                <p>နေ့စဉ် အရောင်းစာရင်းများကို စနစ်တကျ မှတ်တမ်းတင်သူ ဖြစ်ပါသည်။</p>
+            </div>
+            <div class="team-card">
+                <div class="member-img-placeholder">
+                    <img src="https://www.fortressofsolitude.co.za/wp-content/uploads/2024/07/Emilia-Re-Zero.jpeg" alt="Team 3">
+                </div>
+                <h3>ကေဇင်</h3>
+                <h3>(ဝန်ဆောင်မှုပေးသူ)</h3>
+                <p>စားသုံးသူများ၏ လိုအပ်ချက်ကို ဖြည့်ဆည်းပေးသူ ဖြစ်ပါသည်။</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="business-info-block">
+        <h2>ကျွန်ုပ်တို့၏ လုပ်ငန်းနှင့် ဝန်ဆောင်မှုများအကြောင်</h2>
+        <p>
+           "The Took Pi's Table သည် မြန်မာ့ရိုးရာ အစားအစာများကို ခေတ်မီသန့်ရှင်းသော စံနှုန်းများနှင့် ပေါင်းစပ်ပြီး အဆင့်မြင့်မားသော 
+           အချက်အပြုတ်အတတ်ပညာဖြင့် ဖန်တီးတင်ဆက်နေသည့် လုပ်ငန်းဖြစ်ပါသည်။ ကျွန်ုပ်တို့သည် သုံးစွဲသူများအတွက် ထူးကဲသော 
+           အရသာကို ပေးစွမ်းနိုင်ရုံသာမက ကျန်းမာရေးနှင့် ညီညွတ်ပြီး စိတ်ချရသော ဝန်ဆောင်မှုများကို ပေးအပ်ရန် အစဉ်စိုက်ထုတ် ကြိုးပမ်းလျက်ရှိပါသည်။"
+        </p>
+    </section>
+</div>
+
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleAuthModal()">&times;</span>
+        <div class="auth-toggle">
+            <button id="toggle-login-btn" class="active" onclick="switchAuthMode('login')">Login</button>
+            <button id="toggle-register-btn" onclick="switchAuthMode('register')">Register</button>
+        </div>
+        
+        <div id="login-form-box" class="auth-form">
+            <input type="text" id="login-user" placeholder="Username သို့မဟုတ် Email" required>
+            <input type="password" id="login-pass" placeholder="Password ထည့်ပါ" required>
+            <button class="btn-submit" style="width:100%;" onclick="handleAuth('login')">ဝင်ရောက်မည်</button>
+        </div>
+
+        <div id="register-form-box" class="auth-form" style="display: none;">
+            <input type="text" id="reg-user" placeholder="Username အသစ်ဖန်တီးပါ" required>
+            <input type="email" id="reg-email" placeholder="Email လိပ်စာထည့်ပါ" required>
+            <input type="password" id="reg-pass" placeholder="Password အသစ်ပေးပါ" required>
+            <button class="btn-submit" style="width:100%;" onclick="handleAuth('register')">အကောင့်ဆောက်မည်</button>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>The Took Pi Table</h3>
+            <p>Experience the true essence of Myanmar's traditional flavors in every bite. Quality and taste are our priorities.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Our Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Opening Hours</h4>
+            <p>Mon - Sun: 10:00 AM - 9:00 PM</p>
+            <p>Location: Yangon, Myanmar</p>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#">FB</a>
+                <a href="#">IG</a>
+                <a href="#">YT</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 The Took Pi Table. All rights reserved. | Designed for သခင်အောင်နန္ဒ</p>
+    </div>
+</footer>
+
+<script>
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+
+    // FIXED: Authentication Handling Scripts
+    function toggleAuthModal() {
+        const modal = document.getElementById('auth-modal');
+        if(modal.style.display === "flex") {
+            modal.style.display = "none";
+        } else {
+            modal.style.display = "flex";
+        }
+    }
+
+    function clearAuthInputs() {
+        document.getElementById('login-user').value = "";
+        document.getElementById('login-pass').value = "";
+        document.getElementById('reg-user').value = "";
+        document.getElementById('reg-email').value = "";
+        document.getElementById('reg-pass').value = "";
+    }
+
+    function switchAuthMode(mode) {
+        const loginBtn = document.getElementById('toggle-login-btn');
+        const regBtn = document.getElementById('toggle-register-btn');
+        const loginBox = document.getElementById('login-form-box');
+        const regBox = document.getElementById('register-form-box');
+        
+        clearAuthInputs(); 
+
+        if(mode === 'login') {
+            loginBtn.classList.add('active');
+            regBtn.classList.remove('active');
+            loginBox.style.display = "block";
+            regBox.style.display = "none";
+        } else {
+            regBtn.classList.add('active');
+            loginBtn.classList.remove('active');
+            regBox.style.display = "block";
+            loginBox.style.display = "none";
+        }
+    }
+
+    function handleAuth(type) {
+        if(type === 'login') {
+            const user = document.getElementById('login-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " လူကြီးမင်း အကောင့်ထဲ ဝင်ရောက်ခြင်း အောင်မြင်ပါတယ် ရှင်။");
+        } else {
+            const user = document.getElementById('reg-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " အကောင့်သစ် တည်ဆောက်မှု အောင်မြင်ပါသည်၊ သခင်အောင်နန္ဒရှင့်။");
+        }
+        clearAuthInputs();
+        toggleAuthModal();
+    }
+</script>
+</body>
+</html>

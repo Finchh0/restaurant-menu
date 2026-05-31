@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Took Pi's Table - Home</title>
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6643/6643359.png">
+    
+    <style>
+        /* CSS Reset & Basic Style */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e0e1e2; 
+            min-height: 100vh;
+        }
+
+        /* Navbar Style */
+        nav {
+            position: fixed; 
+            top: 20px;       
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;      
+            max-width: 1200px;
+            background-color: rgb(233, 217, 210); 
+            backdrop-filter: blur(8px);                 
+            -webkit-backdrop-filter: blur(8px);
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 30px;
+            z-index: 1000;
+            box-sizing: border-box;
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); 
+        }
+
+        nav.scrolled {
+            top: 10px;
+            width: 95%;
+            padding: 0.8rem 2rem; 
+            background: rgba(255, 255, 255, 0.8); 
+            backdrop-filter: blur(12px); 
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        nav .logo {
+            color: #ed722a; 
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+            margin: 0;
+            padding: 0;
+            align-items: center;
+        }
+
+        nav ul li a {
+            color: #ed722a;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ffffff;
+            background-color: #ed722a;
+        }
+
+        .nav-btn {
+            background: #ed722a;
+            color: white !important;
+            border-radius: 20px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: 600;
+            border: none;
+            font-size: 0.95rem;
+        }
+        .nav-btn:hover { background: #1a1a1a; }
+
+        /* Hero Section Style */
+        .hero-section {
+            height: 600px; /* COMMENT: စာသားများ အောက်သို့ လျှောဆင်းရန် အမြင့်အား 520px မှ 600px သို့ အနည်းငယ် တိုးမြှင့်လိုက်သည် */
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('https://cdn.dribbble.com/userupload/46536572/file/6a6b84fd8300727106b498d7d214813a.jpg?resize=1504x1128&vertical=center');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 25px;
+            text-align: center;
+            color: white;
+            padding-top: 100px; /* COMMENT: FIXED - Navbar အောက် စာသားများ တိုးမဝင်စေရန် padding-top ထည့်သွင်းခြင်း */
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .hero-content p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .hero-opening-hours {
+            background: rgba(0, 0, 0, 0.5); 
+            padding: 8px 20px; 
+            border-radius: 50px; 
+            font-size: 1rem;
+            font-weight: 600;
+            color: #d4af37; 
+            border: 1px solid rgba(214, 175, 55, 0.3); 
+            margin-top: 5px;
+            letter-spacing: 0.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px; 
+        }
+
+        .cta-btn {
+            background: #ed722a;
+            color: white;
+            text-decoration: none;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 15px rgba(237, 114, 42, 0.4);
+        }
+
+        .cta-btn:hover {
+            background: #fff;
+            color: #ed722a;
+            transform: translateY(-3px);
+        }
+
+        /* Luxury Promotion Banner Style */
+        .promo-container {
+            max-width: 1200px;
+            margin: 60px auto 0 auto;
+            padding: 0 20px;
+        }
+        .premium-promo-banner {
+            background: linear-gradient(135deg, #111111 0%, #25252b 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(214, 175, 55, 0.2);
+            position: relative;
+        }
+        .promo-content {
+            flex: 1;
+            padding: 40px 50px;
+            z-index: 2;
+        }
+        .promo-tag {
+            display: inline-block;
+            background: rgba(214, 175, 55, 0.15);
+            color: #d4af37;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 50px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(214, 175, 55, 0.3);
+        }
+        .promo-content h2 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            line-height: 1.3;
+        }
+        .promo-content h2 span { color: #ed722a; }
+        .promo-content p { color: #b2bec3; font-size: 1rem; margin-bottom: 25px; font-weight: 300; }
+        
+        .promo-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #ed722a 0%, #d4af37 100%);
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 15px rgba(237, 114, 42, 0.3);
+        }
+        .promo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+        }
+        .promo-image {
+            width: 60%;
+            height: 420px;
+            background: url('image/promotionbanner.png') center;
+            background-size: cover;
+            border-radius: 15px;
+        }
+
+        /* Sections General Style */
+        .section-container { max-width: 1200px; margin: 80px auto; padding: 0 20px; }
+        .section-title { 
+            text-align: center; 
+            margin-bottom: 15px; 
+            color: #1a1a1a; 
+            font-size: 2.3rem;
+            font-weight: 700; 
+        }
+        .section-subtitle {
+            text-align: center;
+            color: #636e72;
+            margin-bottom: 50px;
+            font-size: 1.05rem;
+        }
+
+        /* Featured Dishes Style */
+        .featured-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+        .feat-card { background: #ec723e; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s ease; }
+        .feat-card:hover { transform: translateY(-10px); box-shadow: 0 12px 30px rgba(0,0,0,0.12); }
+        .feat-card img { width: 100%; height: 230px; object-fit: cover; }
+        .feat-content { padding: 15px; }
+        .feat-card h3 { font-size: 1.3rem; color: #ffffff; margin-bottom: 10px; }
+        .feat-card p { color: #ffffff; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; }
+        
+        .view-menu-wrapper { text-align: center; margin-top: 40px; }
+        .view-menu-btn {
+            display: inline-block;
+            border: 2px solid #ffffff;
+            color: #ec723e;
+            text-decoration: none;
+            padding: 12px 35px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: 0.3s;
+            background: white;
+        }
+        .view-menu-btn:hover { background: #ec723e; color: #fff; border-color: #ec723e; }
+
+        /* Reviews Section Style */
+        .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 25px; }
+        .review-card { background: #ec723e; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); animation: popIn 0.4s ease; }
+        .review-card p { color: #ffffff; font-style: italic; font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px; }
+        .review-author { font-weight: 700; color: #ffffff; font-size: 0.9rem; }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+
+        /* Floating Widgets Style */
+        .floating-widgets-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            z-index: 2000;
+        }
+        .widget-btn {
+            width: 60px;
+            height: 60px;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            transition: 0.3s ease;
+        }
+        .widget-btn:hover { transform: scale(1.1); filter: brightness(0.9); }
+        #bookingWidgetBtn { background-color: #ed722a; }
+        #feedbackWidgetBtn { background-color: #111111; border: 1px solid rgba(255,255,255,0.2); }
+
+        /* Popups Containers */
+        .popup-box {
+            position: fixed;
+            bottom: 110px;
+            right: 30px;
+            width: 360px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.25);
+            z-index: 2000;
+            overflow: hidden;
+            display: none;
+            flex-direction: column;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        .popup-header {
+            color: #fff;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .booking-header { background: #ed722a; }
+        .feedback-header { background: linear-gradient(135deg, #111111 0%, #1e1e24 100%); border-bottom: 1px solid rgba(214,175,55,0.3); }
+        .feedback-header h3 { color: #d4af37; }
+        .popup-header h3 { font-size: 1.1rem; font-weight: 600; }
+        .popup-close-btn { background: none; border: none; color: #fff; font-size: 1.2rem; cursor: pointer; font-weight: bold; }
+
+        .popup-body { padding: 20px; max-height: 420px; overflow-y: auto; }
+        .welcome-text {
+            font-size: 0.85rem;
+            color: #636e72;
+            background: #f1f2f6;
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            line-height: 1.4;
+        }
+        .feedback-body-bg { background-color: #1e1e24; color: #ffffff; }
+        .feedback-welcome { background: rgba(255,255,255,0.05); color: #b2bec3; border: 1px solid rgba(255,255,255,0.1); }
+
+        .popup-form { display: flex; flex-direction: column; gap: 15px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; }
+        .form-group label { font-size: 0.85rem; font-weight: 600; color: #2d3436; }
+        .feedback-body-bg .form-group label { color: #d4af37; text-transform: uppercase; letter-spacing: 1px; }
+
+        .popup-form input, .popup-form select, .popup-form textarea {
+            padding: 11px;
+            border: 1px solid #ddd;
+            border-radius: 7px;
+            font-size: 0.9rem;
+            outline: none;
+            font-family: inherit;
+        }
+        .feedback-body-bg input, .feedback-body-bg textarea {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+        }
+        .feedback-body-bg input:focus, .feedback-body-bg textarea:focus { border-color: #d4af37; }
+
+        .btn-submit {
+            background: #ed722a;
+            color: #fff;
+            padding: 12px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: 0.3s;
+        }
+        .btn-submit:hover { background: #1a1a1a; }
+        .btn-gold-submit {
+            background: linear-gradient(90deg, #ed722a 0%, #d4af37 100%);
+            border: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Authentication Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2500;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #636e72;
+        }
+        .auth-toggle { display: flex; gap: 10px; margin-bottom: 20px; }
+        .auth-toggle button {
+            flex: 1; padding: 10px; border: none; background: #eee; cursor: pointer; font-weight: bold; border-radius: 8px;
+        }
+        .auth-toggle button.active { background: #ed722a; color: white; }
+        .auth-form input {
+            width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) { 
+            .featured-grid, .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+            .premium-promo-banner { flex-direction: column; text-align: center; }
+            .promo-image { width: 100%; height: 200px; }
+            .promo-content { padding: 30px 20px; }
+        }
+        @media (max-width: 600px) { 
+            .featured-grid, .reviews-grid { grid-template-columns: 1fr; }
+            nav { flex-direction: column; gap: 15px; height: auto; }
+            .popup-box { width: calc(100% - 40px); right: 20px; bottom: 175px; }
+            .floating-widgets-container { bottom: 20px; right: 20px; }
+            .promo-content h2 { font-size: 1.6rem; }
+            .hero-content h1 { font-size: 2.2rem; }
+            /* COMMENT: Responsive ဖြစ်စဉ် ဖုန်းမျက်နှာပြင်တွင်ပါ Navbar လွတ်စေရန် ပတ်ဒင်း ထပ်တိုးပေးခြင်း */
+            .hero-section { padding-top: 160px; height: auto; padding-bottom: 40px; } 
+        }
+        
+        /* Footer Styles */
+        footer { background-color: #1a1a1a; color: #ffffff; padding: 60px 0 20px; margin-top: 80px; }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; padding: 0 20px; }
+        .footer-section h3 { color: #ec723e; margin-bottom: 20px; font-size: 1.5rem; }
+        .footer-section h4 { margin-bottom: 20px; position: relative; padding-bottom: 10px; }
+        .footer-section h4::after { content: ''; position: absolute; left: 0; bottom: 0; width: 30px; height: 2px; background-color: #ec723e; }
+        .footer-section p { color: #b2bec3; font-size: 0.9rem; line-height: 1.6; }
+        .footer-section ul { list-style: none; }
+        .footer-section ul li { margin-bottom: 10px; }
+        .footer-section ul li a { color: #b2bec3; text-decoration: none; transition: 0.3s; font-size: 0.9rem; }
+        .footer-section ul li a:hover { color: #ec723e; padding-left: 5px; }
+        .social-links { display: flex; gap: 15px; }
+        .social-links a { width: 35px; height: 35px; background: #2d3436; display: flex; align-items: center; justify-content: center; border-radius: 50%; color: white; text-decoration: none; transition: 0.3s; font-size: 0.8rem; }
+        .social-links a:hover { background: #ec723e; transform: translateY(-3px); }
+        .footer-bottom { text-align: center; margin-top: 50px; padding-top: 20px; border-top: 1px solid #2d3436; font-size: 0.8rem; color: #636e72; }
+    </style>
+</head>
+<body>
+
+<nav id="navbar">
+    <div class="logo">THE TOOK PI'S TABLE</div>
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><button class="nav-btn" id="user-nav-btn" onclick="toggleAuthModal()">Login</button></li>
+    </ul>
+</nav>
+
+<div class="hero-section">
+    <div class="hero-content">
+        <h1>မင်္ဂလာပါ။ The Took Pi's Table မှကြိုဆိုပါတယ်။</h1>
+        <p>မြန်မာအရသာစစ်စစ်ကို အဆင့်အတန်းရှိရှိ ခံစားလိုက်ပါ။</p>
+    </div>
+    
+    <div class="hero-opening-hours">
+        <span>🕒 Open Daily: 10:00 AM - 9:00 PM</span>
+    </div>
+
+    <a href="menu.html" class="cta-btn">Order Online Now</a>
+</div>
+
+<div class="promo-container">
+    <div class="premium-promo-banner">
+        <div class="promo-content">
+            <span class="promo-tag">Limited Time Offer</span>
+            <h2>ရုံးပိတ်ရက်အထူးအစီအစဉ်:<br>Get <span>25% OFF</span> လူကြိုက်အများဆုံး အထူးဟင်းလျာများအားလုံးအတွက်</h2>
+            <p>ဒီတစ်ပတ်ပိတ်ရက်မှာ မိသားစုနဲ့အတူ အရသာရှိတဲ့ ရိုးရာအစားအစာတွေကို အထူးလျှော့စျေးနဲ့ သုံးဆောင်လိုက်ပါ။</p>
+            <a href="menu.html" class="promo-btn">View Menu & Order</a>
+        </div>
+        <div class="promo-image"></div>
+    </div>
+</div>
+
+<div class="section-container">
+    <h2 class="section-title" style="color: #ec723e;">လူကြိုက်အများဆုံး ဟင်းပွဲများ</h2>
+    <p class="section-subtitle" style="color: #ec723e;">ကျွန်ုပ်တို့ဆိုင်၏ နာမည်ကြီးပြီး လက်ရာအမြောက်ဆုံး Signature ဟင်းပွဲများကို မြည်းစမ်းကြည့်လိုက်ပါ။</p>
+    
+    <div class="featured-grid">
+        <div class="feat-card">
+            <img src="https://grantourismotravels.com/wp-content/uploads/2015/07/What-to-Eat-in-Myanmar-Mohinga-Noodles-Mandalay-Myanmar-Copyright-2022-Terence-Carter-Grantourismo-T.jpg" alt="မုန့်ဟင်းခါး">
+            <div class="feat-content">
+                <h3>မုန့်ဟင်းခါး</h3>
+                <p>ငါးခူစစ်စစ်နဲ့ အချိုမှုန့် လုံးဝမသုံးဘဲ သဘာဝအတိုင်း ချက်ထားတဲ့ ရိုးရာမုန့်ဟင်းခါး။</p>
+            </div>
+        </div>
+        <div class="feat-card">
+            <img src="https://images.deliveryhero.io/image/fd-mm/LH/g5jx-listing.jpg" alt="ရှမ်းခေါက်ဆွဲ">
+            <div class="feat-content">
+                <h3>ရှမ်းခေါက်ဆွဲ</h3>
+                <p>ရှမ်းပြည်နယ်စစ်စစ်က လာတဲ့ ဆန်ညှပ်ခေါက်ဆွဲနဲ့ အသားနှစ်အနှစ် အရသာစိမ့်အိမှု။</p>
+            </div>
+        </div>
+        <div class="feat-card">
+            <img src="https://thespace.ink/wp-content/uploads/2025/02/Swhe-Yin-Aye.jpg" alt="ရွှေရင်အေး">
+            <div class="feat-content">
+                <h3>ရွှေရင်အေး</h3>
+                <p>ကျောက်ကျော၊ ကောက်ညှင်းနဲ့ အုန်းနို့စစ်စစ်တို့ ပေါင်းစပ်ထားတဲ့ နာမည်ကြီးအချိုပွဲ။</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="view-menu-wrapper">
+        <a href="menu.html" class="view-menu-btn">View Full Menu</a>
+    </div>
+</div>
+
+<div class="section-container">
+    <h2 class="section-title" style="color: #ec723e;">စားသုံးသူများ၏ စကားသံများ</h2>
+    <p class="section-subtitle" style="color: #ec723e;">The Took Pi's Table သို့ လာရောက်အားပေးကြသူများ၏ စိတ်ကျေနပ်မှု Feedback များ။</p>
+    
+    <div class="reviews-grid" id="reviewsGrid">
+        <div class="review-card">
+            <p>"ဒီဆိုင်က မုန့်ဟင်းခါးက တကယ့်အိမ်ချက်လက်ရာအတိုင်းပဲ။ အရသာက အရမ်းစစ်ပြီး သန့်ရှင်းမှုရှိတယ်။"</p>
+            <div class="review-author">- ဟိန်းချမ်းသူ</div>
+        </div>
+        <div class="review-card">
+            <p>"ရှမ်းခေါက်ဆွဲက ရှယ်ပဲ၊ ဆိုင်အပြင်အဆင်လည်း လှလို့ သူငယ်ချင်းတွေနဲ့ လာစားဖို့ အရမ်းအဆင်ပြေတယ်။"</p>
+            <div class="review-author">- ရီရီမာအေး</div>
+        </div>
+    </div>
+</div>
+
+<div id="auth-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="toggleAuthModal()">&times;</span>
+        <div class="auth-toggle">
+            <button id="toggle-login-btn" class="active" onclick="switchAuthMode('login')">Login</button>
+            <button id="toggle-register-btn" onclick="switchAuthMode('register')">Register</button>
+        </div>
+        
+        <div id="login-form-box" class="auth-form">
+            <input type="text" id="login-user" placeholder="Username သို့မဟုတ် Email" required>
+            <input type="password" id="login-pass" placeholder="Password ထည့်ပါ" required>
+            <button class="btn-submit" style="width:100%;" onclick="handleAuth('login')">ဝင်ရောက်မည်</button>
+        </div>
+
+        <div id="register-form-box" class="auth-form" style="display: none;">
+            <input type="text" id="reg-user" placeholder="Username အသစ်ဖန်တီးပါ" required>
+            <input type="email" id="reg-email" placeholder="Email လိပ်စာထည့်ပါ" required>
+            <input type="password" id="reg-pass" placeholder="Password အသစ်ပေးပါ" required>
+            <button class="btn-submit" style="width:100%;" onclick="handleAuth('register')">အကောင့်ဆောက်မည်</button>
+        </div>
+    </div>
+</div>
+
+<div class="floating-widgets-container">
+    <div class="widget-btn" id="feedbackWidgetBtn" onclick="togglePopup('feedbackContainer')" title="Write Feedback">📝</div>
+    <div class="widget-btn" id="bookingWidgetBtn" onclick="togglePopup('bookingContainer')" title="Book a Table">📅</div>
+</div>
+
+<div class="popup-box" id="bookingContainer">
+    <div class="popup-header booking-header">
+        <h3>Table Reservation 📅</h3>
+        <button class="popup-close-btn" onclick="togglePopup('bookingContainer')">×</button>
+    </div>
+    <div class="popup-body">
+        <div class="welcome-text">
+            မင်္ဂလာပါရှင်။ စားပွဲဝိုင်း ကြိုတင်ဘိုကင်လုပ်ရန် အချက်အလက်များကို ဖြည့်စွက်ပေးပါရှင်။
+        </div>
+        
+        <form class="popup-form" id="ajaxBookingForm" action="https://formspree.io/f/mkoydako" method="POST">
+            <div class="form-group">
+                <label>အမည်</label>
+                <input type="text" name="Customer Name" placeholder="သခင်အောင်နန္ဒ" required>
+            </div>
+            <div class="form-group">
+                <label>ဖုန်းနံပါတ်</label>
+                <input type="tel" name="Phone Number" placeholder="09xxxxxxx" required>
+            </div>
+            <div class="form-group">
+                <label>ရက်စွဲ</label>
+                <input type="date" name="Reservation Date" required>
+            </div>
+            <div class="form-group">
+                <label>လူဦးရေ</label>
+                <select name="Total Guests" required>
+                    <option value="1 ယောက်">1 ယောက်</option>
+                    <option value="2 ယောက်">2 ယောက်</option>
+                    <option value="4 ယောက်">4 ယောက်</option>
+                    <option value="5 ယောက်နှင့်အထက်">5 ယောက်နှင့်အထက်</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit" id="bookingSubmitBtn">Book Now</button>
+        </form>
+    </div>
+</div>
+
+<div class="popup-box" id="feedbackContainer">
+    <div class="popup-header feedback-header">
+        <h3>Share Experience ✨</h3>
+        <button class="popup-close-btn" onclick="togglePopup('feedbackContainer')">×</button>
+    </div>
+    <div class="popup-body feedback-body-bg">
+        <div class="welcome-text feedback-welcome">
+            သင့်ရဲ့ အဖိုးတန်လှတဲ့ Feedback တွေကို မျှဝေပေးခဲ့ပါ။ ရေးသားပြီးတာနဲ့ စာမျက်နှာပေါ်မှာ တိုက်ရိုက် ဖော်ပြပေးသွားမှာ ဖြစ်ပါတယ်။
+        </div>
+        <form class="popup-form" onsubmit="handleDirectFeedback(event)">
+            <div class="form-group">
+                <label>Your Name</label>
+                <input type="text" id="fbName" placeholder="သခင်အောင်နန္ဒ" required>
+            </div>
+            <div class="form-group">
+                <label>Your Review</label>
+                <textarea id="fbMessage" rows="4" placeholder="ဝန်ဆောင်မှုအပေါ် သင့်အမြင်..." required></textarea>
+            </div>
+            <button type="submit" class="btn-submit btn-gold-submit">Submit Review</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function togglePopup(id) {
+        const target = document.getElementById(id);
+        const allPopups = ['bookingContainer', 'feedbackContainer'];
+        
+        allPopups.forEach(pId => {
+            if(pId !== id) document.getElementById(pId).style.display = 'none';
+        });
+
+        if (target.style.display === 'flex') {
+            target.style.display = 'none';
+        } else {
+            target.style.display = 'flex';
+        }
+    }
+
+    document.getElementById('ajaxBookingForm').addEventListener('submit', function(e) {
+        e.preventDefault(); 
+        
+        const form = e.target;
+        const button = document.getElementById('bookingSubmitBtn');
+        const data = new FormData(form);
+        
+        button.disabled = true;
+        button.innerText = "Sending...";
+
+        fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => {
+            if (response.ok) {
+                alert("စားပွဲဝိုင်း ဘိုကင်တင်ခြင်း အောင်မြင်ပါတယ်၊ သခင်အောင်နန္ဒရှင့်။ 😊");
+                form.reset(); 
+                togglePopup('bookingContainer'); 
+            } else {
+                alert("အချက်အလက် ပို့ဆောင်ရာတွင် အဆင်မပြေမှု ဖြစ်ပွားခဲ့သည်။");
+            }
+        }).catch(error => {
+            alert("Error: ကွန်ရက်ချိတ်ဆက်မှု စစ်ဆေးပါရှင်။");
+        }).finally(() => {
+            button.disabled = false;
+            button.innerText = "Book Now";
+        });
+    });
+
+    function handleDirectFeedback(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('fbName').value;
+        const message = document.getElementById('fbMessage').value;
+        const reviewsGrid = document.getElementById('reviewsGrid');
+
+        const newCard = document.createElement('div');
+        newCard.className = 'review-card';
+        newCard.innerHTML = `
+            <p>"${message}"</p>
+            <div class="review-author">- ${name}</div>
+        `;
+        reviewsGrid.appendChild(newCard);
+
+        document.getElementById('fbName').value = '';
+        document.getElementById('fbMessage').value = '';
+        togglePopup('feedbackContainer');
+        
+        alert("Feedback ပေးပို့ခြင်းအတွက် ကျေးဇူးတင်ပါတယ်ရှင့်။ 😊");
+    }
+
+    function toggleAuthModal() {
+        const modal = document.getElementById('auth-modal');
+        if(modal.style.display === "flex") {
+            modal.style.display = "none";
+        } else {
+            modal.style.display = "flex";
+        }
+    }
+
+    function clearAuthInputs() {
+        document.getElementById('login-user').value = "";
+        document.getElementById('login-pass').value = "";
+        document.getElementById('reg-user').value = "";
+        document.getElementById('reg-email').value = "";
+        document.getElementById('reg-pass').value = "";
+    }
+
+    function switchAuthMode(mode) {
+        const loginBtn = document.getElementById('toggle-login-btn');
+        const regBtn = document.getElementById('toggle-register-btn');
+        const loginBox = document.getElementById('login-form-box');
+        const regBox = document.getElementById('register-form-box');
+        
+        clearAuthInputs(); 
+
+        if(mode === 'login') {
+            loginBtn.classList.add('active');
+            regBtn.classList.remove('active');
+            loginBox.style.display = "block";
+            regBox.style.display = "none";
+        } else {
+            regBtn.classList.add('active');
+            loginBtn.classList.remove('active');
+            regBox.style.display = "block";
+            loginBox.style.display = "none";
+        }
+    }
+
+    function handleAuth(type) {
+        if(type === 'login') {
+            const user = document.getElementById('login-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " လူကြီးမင်း အကောင့်ထဲ ဝင်ရောက်ခြင်း အောင်မြင်ပါတယ် ရှင်။");
+        } else {
+            const user = document.getElementById('reg-user').value;
+            if(!user) { alert("အချက်အလက် ဖြည့်ပါဦး ရှင်"); return; }
+            document.getElementById('user-nav-btn').innerText = "Hi, " + user;
+            alert(user + " အကောင့်သစ် တည်ဆောက်မှု အောင်မြင်ပါသည်၊ သခင်အောင်နန္ဒရှင့်။");
+        }
+        clearAuthInputs();
+        toggleAuthModal();
+    }
+
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (window.scrollY > 50) {
+            navbar.classList.add('scrolled');
+        } else {
+            navbar.classList.remove('scrolled');
+        }
+    });
+</script>
+
+<footer>
+    <div class="footer-container">
+        <div class="footer-section">
+            <h3>The Took Pi Table</h3>
+            <p>Experience the true essence of Myanmar's traditional flavors in every bite. Quality and taste are our priorities.</p>
+        </div>
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="menu.html">Our Menu</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </div>
+        <div class="footer-section">
+            <h4>Opening Hours</h4>
+            <p>Mon - Sun: 10:00 AM - 9:00 PM</p>
+            <p>Location: Yangon, Myanmar</p>
+        </div>
+        <div class="footer-section">
+            <h4>Follow Us</h4>
+            <div class="social-links">
+                <a href="#">FB</a><a href="#">IG</a><a href="#">YT</a>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 The Took Pi Table. All rights reserved. | Designed for သခင်အောင်နန္ဒ</p>
+    </div>
+</footer>
+</body>
+</html>
